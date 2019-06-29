@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${daoPackageName}.${table.domainClassName}Mapper">
+    <resultMap id="${table.domainObjName}" type="${domainPackageName}.${table.domainClassName}">
+#foreach($column in $table.columnList)
+    #if($column.columnName == 'id')
+    <id column="${column.columnName}" property="${column.fieldName}"/>
+    #else
+<result column="${column.columnName}" property="${column.fieldName}"/>
+    #end
+#end
+</resultMap>
+    <sql id="${table.domainObjName}Column">
+        #foreach($column in $table.columnList)#if($column.columnName != 'id')`$column.columnName`#if($foreach.count < $table.columnList.size()),#end#end#end
+    </sql>
+</mapper>
+

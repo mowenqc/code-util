@@ -1,0 +1,10 @@
+package $daoPackageName;
+
+
+import ${domainPackageName}.${table.domainClassName};
+import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.common.Mapper;
+
+@Repository
+public interface ${table.domainClassName}Mapper extends Mapper<${table.domainClassName}>{
+}

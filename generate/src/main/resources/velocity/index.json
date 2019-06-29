@@ -1,0 +1,1 @@
+[{"type":1,"name":"id","field":"id"},{"type":1,"name":"姓名","field":"name"},{"type":1,"name":"密码","field":"password"},{"type":1,"name":"昵称","field":"nickName"},{"type":1,"name":"创建时间","field":"createTime"},{"type":1,"name":"更新时间","field":"updateTime"}]

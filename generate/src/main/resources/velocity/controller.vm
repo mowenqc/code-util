@@ -1,0 +1,112 @@
+package ${controllerPackageName};
+
+import com.mowen.common.domain.Page;
+import ${prefix}.common.BaseController;
+import ${iServicePackageName}.I${table.domainClassName}Service;
+import ${domainPackageName}.${table.domainClassName};
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Date;
+
+@Controller
+@RequestMapping("${table.domainObjName}")
+public class ${table.domainClassName}Controller extends BaseController{
+    private Logger logger = Logger.getLogger(this.getClass());
+
+    @Resource
+    private I${table.domainClassName}Service ${table.domainObjName}Service;
+
+    @RequestMapping("index.html")
+    public String index(){
+        return "${table.domainObjName}/index";
+    }
+
+    /**
+     * 新增
+     *
+     * @param ${table.domainObjName}
+     * @return
+     */
+    @RequestMapping("add.html")
+    @ResponseBody
+    public String add${table.domainClassName}(${table.domainClassName} ${table.domainObjName}){
+        try {
+            ${table.domainObjName}Service.add${table.domainClassName}(${table.domainObjName});
+            return buildSuccessResponse();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return this.buildErrorResponse(e.getMessage());
+        }
+    }
+    /**
+     * 删除
+     * @return
+     */
+    @RequestMapping("deleteById.html")
+    @ResponseBody
+    public String delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}){
+        try {
+            ${table.domainObjName}Service.delete${table.domainClassName}ById(${table.domainObjName});
+            return buildSuccessResponse();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return this.buildErrorResponse(e.getMessage());
+        }
+    }
+
+    /***
+     * 修改
+     * @param ${table.domainObjName}
+     * @return
+     */
+    @RequestMapping("update.html")
+    @ResponseBody
+    public String update${table.domainClassName}(${table.domainClassName} ${table.domainObjName}){
+        try {
+            ${table.domainObjName}Service.update${table.domainClassName}(${table.domainObjName});
+            return buildSuccessResponse();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return this.buildErrorResponse(e.getMessage());
+        }
+    }
+
+    /**
+     * 根据ID查找
+     * @return
+     */
+    @RequestMapping("findById.html")
+    @ResponseBody
+    public String find${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}){
+        try {
+            ${table.domainClassName} result${table.domainObjName} = ${table.domainObjName}Service.find${table.domainClassName}(${table.domainObjName});
+            return buildSuccessResponse(result${table.domainObjName});
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return this.buildErrorResponse(e.getMessage());
+        }
+    }
+
+    /**
+     * 分页获取属性列表
+     * @return
+     */
+    @RequestMapping("list.html")
+    @ResponseBody
+    public String list${table.domainClassName}(${table.domainClassName} ${table.domainObjName}, Page page){
+        try {
+            List<${table.domainClassName}> list = ${table.domainObjName}Service.list${table.domainClassName}(${table.domainObjName}, page);
+            int count = ${table.domainObjName}Service.count${table.domainClassName}(${table.domainObjName});
+            return buildTableSuccessRespone(count, list);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return this.buildTableErrorRespone(e.getMessage());
+        }
+    }
+}

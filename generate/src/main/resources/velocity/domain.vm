@@ -1,0 +1,52 @@
+package $packageName;
+import java.util.Date;
+import java.io.Serializable;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Table(name = "$!table.tableName")
+public class $!table.domainClassName implements Serializable{
+
+    private static final long serialVersionUID = -1L;
+
+#foreach($column in $!table.columnList)
+
+    /**
+    * ${column.comment}
+    */
+    #if($column.fieldName.equals("id"))
+@Id
+    @GeneratedValue(generator = "JDBC")
+    #end
+private ${column.fieldType} ${column.fieldName};
+#end
+
+#foreach($column in $!table.columnList)
+    public ${column.fieldType} ${column.getterMethodName}(){
+        return $!column.fieldName;
+    }
+
+    public void ${column.setterMethodName}(${column.fieldType} ${column.fieldName}){
+        this.${column.fieldName} = ${column.fieldName};
+    }
+
+#end
+
+    public static enum Fields{
+    #foreach($column in $!table.columnList)
+    ${column.fieldName}("${column.fieldName}"),
+    #end
+    ;
+
+        private String fieldName;
+
+        Fields(String fieldName){
+            this.fieldName = fieldName;
+        }
+
+        public String getFieldName() {
+            return fieldName;
+        }
+    }
+}

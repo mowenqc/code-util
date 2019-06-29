@@ -1,0 +1,56 @@
+package $iServicePackageName;
+
+import com.mowen.common.domain.Page;
+import ${domainPackageName}.${table.domainClassName};
+
+import java.util.List;
+
+public interface I${table.domainClassName}Service {
+
+    /**
+    * 新增
+    *
+    * @param ${table.domainObjName}
+    * @return
+    */
+    int add${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+
+    /**
+    * 删除
+    *
+    * @param ${table.domainObjName} 对象中包含Id
+    * @return
+    */
+    void delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName});
+
+    /***
+    * 修改
+    * @param ${table.domainObjName}
+    * @return
+    */
+    void update${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+
+    /**
+    * 根据ID查找
+    *
+    * @param ${table.domainObjName}
+    * @return
+    */
+    ${table.domainClassName} find${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+
+    /***
+    * 分页查找
+    * @param page
+    * @param ${table.domainObjName} 参数数据
+    * @return ${table.domainObjName} list
+    */
+    List<${table.domainClassName}> list${table.domainClassName}(${table.domainClassName} ${table.domainObjName}, Page page);
+
+    /***
+    * count总数
+    *
+    * @return
+    */
+    int count${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+
+}
