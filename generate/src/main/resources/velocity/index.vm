@@ -61,7 +61,7 @@
 <script type="text/javascript" src="/js/xadmin/xadmin.js"></script>
 <script>
   layui.config({
-    base: '/js/module'
+    base: '/js/module/'
   })
 </script>
 <script>
@@ -175,7 +175,7 @@
           {checkbox: true},
           #foreach($item in $table.viewTypes)
             {field: '$item.field', title: '$item.name', align: 'center'},
-          #end,
+          #end
           {
             title: '操作',
             fixed: 'right',

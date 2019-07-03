@@ -69,9 +69,8 @@ public class Generator {
     PackageName packageName = generatePackageNames("com.mowen", "user");
     int singleDialog = 1; //1 表示弹框单列显示 ， 其他的表示双列显示
 
-    generateJson(tableName);
+//    generateJson(tableName);
     generate(tableName, packageName, fileDir, singleDialog);
-
   }
 
   private static void generateJson(String table) {
@@ -194,6 +193,9 @@ public class Generator {
         if (cache.get(column.getFieldName()) != null) {
           column.setViewType(cache.get(column.getFieldName()));
         }
+      }
+      if(viewTypes != null){
+        table.setViewTypes(viewTypes);
       }
     } catch (Exception e) {
       e.printStackTrace();
