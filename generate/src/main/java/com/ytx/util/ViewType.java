@@ -1,6 +1,7 @@
 package com.ytx.util;
 
 import java.io.Serializable;
+import java.util.List;
 
 /***
  * desc  :
@@ -25,6 +26,8 @@ public class ViewType implements Serializable {
      */
     private String field;
 
+    private List<NamePair> selectList;
+
     public int getType() {
         return type;
     }
@@ -47,6 +50,14 @@ public class ViewType implements Serializable {
 
     public void setField(String field) {
         this.field = field;
+    }
+
+    public List<NamePair> getSelectList() {
+        return selectList;
+    }
+
+    public void setSelectList(List<NamePair> selectList) {
+        this.selectList = selectList;
     }
 
     @Override

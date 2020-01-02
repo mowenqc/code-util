@@ -29,15 +29,6 @@ public class Table implements Serializable {
         getColumnInfo(metaData, resultSet);
     }
 
-    private void checkIdExist(List<TableColumn> columns){
-        for(TableColumn column : columns){
-            if(column.getFieldName().equals("id") && column.getFieldType().equals("long")){
-                return;
-            }
-        }
-        throw new IllegalStateException("表定义中缺少类型为bigint,名为id的自增主键");
-    }
-
     public List<ViewType> getViewTypes() {
         return viewTypes;
     }
@@ -61,7 +52,6 @@ public class Table implements Serializable {
         }
         for(int i = 0;i < size;i++){
             String name = metaData.getColumnName(i + 1);
-            System.out.println(name);
             columnNames[i] = name;
             columnTypes[i] = metaData.getColumnTypeName(i + 1);
             columnComment[i] =  remark.get(name);
@@ -96,11 +86,11 @@ public class Table implements Serializable {
 
     private String[] checkTableName(String tableName){
         String[] tmpArray = TableColumn.checkName(tableName);
-        if(!tmpArray[0].equals("m")){
-            throw new IllegalArgumentException("表名应以ytx开头");
+        if(!tmpArray[0].equals("gie")){
+            throw new IllegalArgumentException("表名应以gie开头");
         }
         if(tmpArray.length == 1){
-            throw new IllegalArgumentException("表名不能是ytx");
+            throw new IllegalArgumentException("表名不能是gie");
         }
         return tmpArray;
     }

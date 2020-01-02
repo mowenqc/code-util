@@ -3,16 +3,90 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${daoPackageName}.${table.domainClassName}Mapper">
     <resultMap id="${table.domainObjName}" type="${domainPackageName}.${table.domainClassName}">
-#foreach($column in $table.columnList)
-    #if($column.columnName == 'id')
-    <id column="${column.columnName}" property="${column.fieldName}"/>
-    #else
-<result column="${column.columnName}" property="${column.fieldName}"/>
-    #end
-#end
-</resultMap>
+        #foreach($column in $table.columnList)
+            #if($column.columnName == 'id')
+                <id column="${column.columnName}" property="${column.fieldName}"/>
+            #else
+                <result column="${column.columnName}" property="${column.fieldName}"/>
+            #end
+        #end
+    </resultMap>
     <sql id="${table.domainObjName}Column">
-        #foreach($column in $table.columnList)#if($column.columnName != 'id')`$column.columnName`#if($foreach.count < $table.columnList.size()),#end#end#end
+        #foreach($column in $table.columnList)`$column.columnName`#if($foreach.count < $table.columnList.size())
+            ,#end#end
     </sql>
+    <insert id="add${table.domainClassName}" parameterType="${domainPackageName}.${table.domainClassName}"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ${table.tableName} (
+        <include refid="${table.domainObjName}Column"></include>
+        )
+        VALUES(#foreach($item in $table.columnList)
+        #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime')
+            #{$item.fieldName}
+        #else
+            now()
+        #end
+        #if($foreach.count < $table.columnList.size()),
+        #end#end)
+    </insert>
+    <delete id="delete${table.domainClassName}ById" parameterType="int">
+        DELETE FROM ${table.tableName} WHERE id = #{id}
+    </delete>
+    <update id="update${table.domainClassName}" parameterType="${domainPackageName}.${table.domainClassName}">
+        UPDATE ${table.tableName} SET update_time = now()
+        #foreach($item in $table.columnList)
+            #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
+                ,$item.columnName = #{$item.fieldName}
+            #end
+        #end
+        WHERE id = #{id}
+    </update>
+    <select id="find${table.domainClassName}" parameterType="${domainPackageName}.${table.domainClassName}"
+            resultMap="${table.domainObjName}">
+        select
+        <include refid="${table.domainObjName}Column"></include>
+        from ${table.tableName}
+        <where>
+            #foreach($item in $table.columnList)
+                #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
+                    <if test="$item.fieldName != null and $item.fieldName != ''">
+                        and $item.columnName = #{$item.fieldName}
+                    </if>
+                #end
+            #end
+        </where>
+    </select>
+    <select id="list${table.domainClassName}" parameterType="map" resultMap="${table.domainObjName}">
+        select
+        <include refid="${table.domainObjName}Column"></include>
+        from ${table.tableName}
+        <where>
+            #foreach($item in $table.columnList)
+                #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
+                    <if test="obj.$item.fieldName != null and obj.$item.fieldName != ''">
+                        and $item.columnName = #{obj.$item.fieldName}
+                    </if>
+                #end
+            #end
+        </where>
+        order by create_time desc
+        <if test="page != null">
+            limit #{page.start}, #{page.pageSize}
+        </if>
+    </select>
+    <select id="count${table.domainClassName}" parameterType="${domainPackageName}.${table.domainClassName}"
+            resultType="int">
+        select count(*)
+        from ${table.tableName}
+        <where>
+            #foreach($item in $table.columnList)
+                #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
+                    <if test="$item.fieldName != null and $item.fieldName != ''">
+                        and $item.columnName = #{$item.fieldName}
+                    </if>
+                #end
+            #end
+        </where>
+    </select>
 </mapper>
 

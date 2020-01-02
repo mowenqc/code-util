@@ -1,6 +1,6 @@
 package $iServicePackageName;
 
-import com.mowen.common.domain.Page;
+import com.ytx.common.web.Page;
 import ${domainPackageName}.${table.domainClassName};
 
 import java.util.List;
@@ -9,7 +9,6 @@ public interface I${table.domainClassName}Service {
 
     /**
     * 新增
-    *
     * @param ${table.domainObjName}
     * @return
     */
@@ -17,7 +16,6 @@ public interface I${table.domainClassName}Service {
 
     /**
     * 删除
-    *
     * @param ${table.domainObjName} 对象中包含Id
     * @return
     */
@@ -32,7 +30,6 @@ public interface I${table.domainClassName}Service {
 
     /**
     * 根据ID查找
-    *
     * @param ${table.domainObjName}
     * @return
     */
@@ -48,7 +45,6 @@ public interface I${table.domainClassName}Service {
 
     /***
     * count总数
-    *
     * @return
     */
     int count${table.domainClassName}(${table.domainClassName} ${table.domainObjName});

@@ -3,8 +3,54 @@ package $daoPackageName;
 
 import ${domainPackageName}.${table.domainClassName};
 import org.springframework.stereotype.Repository;
-import tk.mybatis.mapper.common.Mapper;
+import com.ytx.common.web.Page;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Repository
-public interface ${table.domainClassName}Mapper extends Mapper<${table.domainClassName}>{
+public interface ${table.domainClassName}Mapper{
+
+    /**
+    * 新增${table.domainObjName}
+    * @param ${table.domainObjName}
+    * @return
+    */
+    int add${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+
+    /**
+    * 删除${table.domainObjName}
+    * @param ${table.domainObjName} 对象中包含Id
+    * @return
+    */
+    void delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName});
+
+    /***
+    * 修改${table.domainObjName}
+    * @param ${table.domainObjName}
+    * @return
+    */
+    void update${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+
+    /**
+    * 根据ID查找
+    * @param ${table.domainObjName}
+    * @return ${table.domainObjName}
+    */
+    ${table.domainClassName} find${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+
+    /***
+    * 分页查找
+    * @param page
+    * @param ${table.domainObjName} 参数数据
+    * @return ${table.domainObjName} list
+    */
+    List<${table.domainClassName}> list${table.domainClassName}(@Param("obj")${table.domainClassName} ${table.domainObjName},@Param("page") Page page);
+
+    /***
+    * count总数
+    *
+    * @return
+    */
+    int count${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
 }

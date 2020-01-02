@@ -1,13 +1,10 @@
 package $servicePackageName;
 
-import com.mowen.common.domain.Page;
+import com.ytx.common.web.Page;
 import $daoPackageName.${table.domainClassName}Mapper;
 import ${domainPackageName}.${table.domainClassName};
 import ${iServicePackageName}.I${table.domainClassName}Service;
 import org.springframework.stereotype.Service;
-import ${prefix}.common.CriteriaUtil;
-import tk.mybatis.mapper.entity.Example;
-import org.apache.ibatis.session.RowBounds;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,30 +17,22 @@ public class ${table.domainClassName}Service implements I${table.domainClassName
 
     /**
     * 新增
-    *
     * @param ${table.domainObjName}
     * @return
     */
     @Override
     public int add${table.domainClassName}(${table.domainClassName} ${table.domainObjName}) {
-        Date date = new Date();
-        ${table.domainObjName}.setCreateTime(date);
-        ${table.domainObjName}.setUpdateTime(date);
-        return ${table.domainObjName}Mapper.insertSelective(${table.domainObjName});
+        return ${table.domainObjName}Mapper.add${table.domainClassName}(${table.domainObjName});
     }
-
-
 
     /**
     * 删除
-    *
     * @param ${table.domainObjName}
     * @return
     */
     @Override
     public void delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}) {
-        Example example = CriteriaUtil.findCriteria(${table.domainObjName});
-        ${table.domainObjName}Mapper.deleteByExample(example);
+        ${table.domainObjName}Mapper.delete${table.domainClassName}ById(${table.domainObjName});
     }
 
     /***
@@ -53,23 +42,17 @@ public class ${table.domainClassName}Service implements I${table.domainClassName
     */
     @Override
     public void update${table.domainClassName}(${table.domainClassName} ${table.domainObjName}) {
-        ${table.domainObjName}.setUpdateTime(new Date());
-        Example example = new Example(${table.domainClassName}.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("id", ${table.domainObjName}.getId());
-        ${table.domainObjName}Mapper.updateByExampleSelective(${table.domainObjName}, example);
+        ${table.domainObjName}Mapper.update${table.domainClassName}(${table.domainObjName});
     }
 
     /**
     * 根据ID查找
-    *
     * @param ${table.domainObjName}
     * @return
     */
     @Override
     public ${table.domainClassName} find${table.domainClassName}(${table.domainClassName} ${table.domainObjName}) {
-        Example example = CriteriaUtil.findCriteria(${table.domainObjName});
-        return ${table.domainObjName}Mapper.selectOneByExample(example);
+        return ${table.domainObjName}Mapper.find${table.domainClassName}(${table.domainObjName});
     }
 
     /***
@@ -79,26 +62,15 @@ public class ${table.domainClassName}Service implements I${table.domainClassName
     */
     @Override
     public List<${table.domainClassName}> list${table.domainClassName}(${table.domainClassName} ${table.domainObjName}, Page page) {
-        Example example = CriteriaUtil.findCriteria(${table.domainObjName});
-        List<${table.domainClassName}> list = null;
-        if (page != null && page.getPageSize() > 0) {
-        RowBounds rowBounds = new RowBounds(page.getStart(), page.getPageSize());
-        list =  ${table.domainObjName}Mapper.selectByExampleAndRowBounds(example, rowBounds);
-        }
-        else{
-        list = ${table.domainObjName}Mapper.selectByExample(example);
-        }
-        return list;
+        return ${table.domainObjName}Mapper.list${table.domainClassName}(${table.domainObjName}, page);
     }
 
     /***
     * count总数
-    *
     * @return
     */
     @Override
     public int count${table.domainClassName}(${table.domainClassName} ${table.domainObjName}) {
-        Example example = CriteriaUtil.findCriteria(${table.domainObjName});
-        return ${table.domainObjName}Mapper.selectCountByExample(example);
+        return ${table.domainObjName}Mapper.count${table.domainClassName}(${table.domainObjName});
     }
 }

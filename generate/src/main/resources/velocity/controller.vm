@@ -1,10 +1,11 @@
 package ${controllerPackageName};
 
-import com.mowen.common.domain.Page;
-import ${prefix}.common.BaseController;
+import com.ytx.common.web.Page;
+import com.ytx.common.web.BaseController;
 import ${iServicePackageName}.I${table.domainClassName}Service;
 import ${domainPackageName}.${table.domainClassName};
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("${table.domainObjName}")
 public class ${table.domainClassName}Controller extends BaseController{
-    private Logger logger = Logger.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     private I${table.domainClassName}Service ${table.domainObjName}Service;
@@ -33,7 +34,7 @@ public class ${table.domainClassName}Controller extends BaseController{
      * @param ${table.domainObjName}
      * @return
      */
-    @RequestMapping("add.html")
+    @RequestMapping("add${table.domainClassName}.html")
     @ResponseBody
     public String add${table.domainClassName}(${table.domainClassName} ${table.domainObjName}){
         try {
@@ -48,7 +49,7 @@ public class ${table.domainClassName}Controller extends BaseController{
      * 删除
      * @return
      */
-    @RequestMapping("deleteById.html")
+    @RequestMapping("delete${table.domainClassName}ById.html")
     @ResponseBody
     public String delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}){
         try {
@@ -65,7 +66,7 @@ public class ${table.domainClassName}Controller extends BaseController{
      * @param ${table.domainObjName}
      * @return
      */
-    @RequestMapping("update.html")
+    @RequestMapping("update${table.domainClassName}.html")
     @ResponseBody
     public String update${table.domainClassName}(${table.domainClassName} ${table.domainObjName}){
         try {
@@ -81,7 +82,7 @@ public class ${table.domainClassName}Controller extends BaseController{
      * 根据ID查找
      * @return
      */
-    @RequestMapping("findById.html")
+    @RequestMapping("find${table.domainClassName}ById.html")
     @ResponseBody
     public String find${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}){
         try {
@@ -97,7 +98,7 @@ public class ${table.domainClassName}Controller extends BaseController{
      * 分页获取属性列表
      * @return
      */
-    @RequestMapping("list.html")
+    @RequestMapping("list${table.domainClassName}.html")
     @ResponseBody
     public String list${table.domainClassName}(${table.domainClassName} ${table.domainObjName}, Page page){
         try {

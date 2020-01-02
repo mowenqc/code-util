@@ -1,323 +1,272 @@
 <!DOCTYPE html>
 <html class="x-admin-sm">
 <head>
-  <meta charset="UTF-8">
-  <title>业务管理系统</title>
-  <meta name="renderer" content="webkit|ie-comp|ie-stand">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport"
-        content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
-  <meta http-equiv="Cache-Control" content="no-siteapp"/>
-
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
-  <link rel="stylesheet" href="/css/font.css">
-  <link rel="stylesheet" href="/css/xadmin.css">
-  <link rel="stylesheet" href="/css/form.css">
+    <meta charset="UTF-8">
+    <title>管理界面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="/css/font.css">
+    <link rel="stylesheet" href="/css/xadmin.css">
 </head>
 <body>
 <div class="x-nav">
-   <span class="layui-breadcrumb">
-     <a href="javascript:void(0);">首页</a>
-     <a href="javascript:void(0);">客户管理</a>
-     <a href="javascript:void(0);"><cite>客户账户</cite></a>
-  </span>
-  <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
-     onclick="location.reload()" title="刷新">
-    <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
-  </a>
+          <span class="layui-breadcrumb">
+            <a href="/">首页</a>
+            <a href="javascript:void(0);">演示</a>
+            <a>
+              <cite>导航元素</cite></a>
+          </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
 <div class="layui-fluid">
-  <div class="layui-row layui-col-space15">
-    <div class="layui-col-md12">
-        <div class="search-content">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5" id="searchForm">
+                        #foreach($item in $table.viewTypes)
+                            #if($item.field != "id" && $item.field != "createTime" && $item.field != "updateTime")
 
+                                #if($item.type == 5)
+                                    <div class="layui-inline layui-show-xs-block">
+                                        <select name="$!item.field" lay-verify="required"
+                                                class="layui-select $!item.field">
+                                            <option value=""></option>
+                                            #if($item.selectList)
+                                                #foreach($option in $item.selectList)
+                                                    <option value="$option.name">$option.value</option>
+                                                #end
+                                            #end
+                                        </select>
+                                    </div>
+                                #elseif($item.type == 8)
+                                    <div class="layui-inline layui-show-xs-block">
+                                        <input type="text" name="$!item.field" lay-verify="$!item.field"
+                                               placeholder="请输入$!item.name" autocomplete="off"
+                                               class="layui-input datetime $!item.field">
+                                    </div>
+                                #elseif($item.type == 1)
+                                    <div class="layui-inline layui-show-xs-block">
+                                        <input name="$!item.field" class="layui-input $!item.field" autocomplete="off"
+                                               placeholder="请输入$!item.name">
+                                    </div>
+                                #end
+
+                            #end
+                        #end
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" type="button" lay-filter="search" id="search"><i
+                                    class="layui-icon">&#xe615;</i></button>
+                            <button class="layui-btn" type="reset"><i class="layui-icon">reset</i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-header" style="text-align: right">
+                    <button class="layui-btn" id="addField"><i class="layui-icon"></i>添加</button>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table layui-form" id="layuiTable" lay-filter="layuiTable">
+
+                    </table>
+                </div>
+            </div>
         </div>
-        <table class="layui-table layui-form" id="layuiTable" lay-filter="layuiTable">
-
-        </table>
-      </div>
     </div>
-  </div>
 </div>
+<div class="layui-layer-dialog" id="openDialog" style="display: none">
+    <form class="layui-form layui-form-pane" id="editDialogForm">
+        #foreach($item in $table.viewTypes)
+            #if($item.field != "id" && $item.field != "createTime" && $item.field != "updateTime")
+                <div class="layui-form-item">
+                    <label class="layui-form-label">$item.name</label>
+                    <div class="layui-input-block">
+                        #if($item.type == 5)
+                            <select name="$!item.field" lay-verify="required"
+                                    class="layui-select $!item.field">
+                                <option value=""></option>
+                                #if($item.selectList)
+                                    #foreach($option in $item.selectList)
+                                        <option value="$option.name">$option.value</option>
+                                    #end
+                                #end
+                            </select>
+                        #elseif($item.type == 7)
+                            <textarea name="$!item.field" placeholder="请输入$!item.name"
+                                      class="layui-textarea $!item.field"></textarea>
+                        #elseif($item.type == 8)
+                            <input type="text" name="$!item.field" lay-verify="$!item.field"
+                                   placeholder="$!item.name" autocomplete="off"
+                                   class="layui-input datetime $!item.field">
+                        #elseif($item.type == 1)
+                            <input name="$!item.field" class="layui-input $!item.field" autocomplete="off"
+                                   placeholder="请输入$!item.name">
+                        #end
+                    </div>
+                </div>
+            #end
+        #end
+    </form>
 </div>
-<script type="text/html" id="toolBar">
-  <div class="tool-bar-wrap">
-    <div class="tool-bar-left">
-
-    </div>
-    <!-- 右侧 -->
-    <div class="tool-bar-right">
-      <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add">新增</button>
-      <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="batch-delete">批量删除</button>
-    </div>
-  </div>
-</script>
-<script type="text/html" id="operateBar">
-  <a class="layui-btn layui-btn-xs edit" lay-event="edit">编辑</a>
-  <a class="layui-btn layui-btn-xs delete" lay-event="delete">删除</a>
-</script>
-<script type="text/javascript" src="/js/xadmin/jquery.min.js"></script>
-<script type="text/javascript" src="/lib/layui/layui.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/xadmin/xadmin.js"></script>
-<script>
-  layui.config({
-    base: '/js/module/'
-  })
-</script>
-<script>
-  layui.use(['jquery', 'layer', 'cTable', 'cForm', 'table', "ajax", "form", "table"], function () {
-    var $ = layui.jquery;
-    var cForm = layui.cForm;
-    var layer = layui.layer;
-    var ajax = layui.ajax;
-    var form = layui.form;
-    var table = layui.table;
-    var $ = layui.jquery;
-
-    var commontable = layui.cTable;
-
-    /**
-     * 筛选条件
-     */
-    var searchField = [
-      #foreach($item  in $table.viewTypes)
-        #if($item.name != "id" && $item.name != "createTime" && $item.name != "updateTime")
-          {
-            type: ${item.type}, // * 表单类型 - radio
-            name: '${item.field}', // * fieldName
-            labelText: '${item.name}', // * label文字
-            block: true
-            #if($item.type == 8)
-              ,laydateConfig:
-                  {
-                    elem: '', // 忽略，自动使用name值为元素id, 其它值与官方保持一致
-                    range:
-                        true
-                  }
-            #end
-            #if($item.type == 5)
-              ,options: [
-                {
-                  value: '',
-                  labelText: ''
-                }
-              ]
-            #end
-          },
-        #end
-      #end
-    ];
-    var editField = [
-      #foreach($item  in $table.viewTypes)
-        #if($item.name != "id" && $item.name != "createTime" && $item.name != "updateTime")
-          {
-            type: ${item.type}, // * 表单类型 - radio
-            name: '${item.field}', // * fieldName
-            labelText: '${item.name}', // * label文字
-            block: true
-            #if($item.type == 8)
-              ,laydateConfig:
-                  {
-                    elem: '', // 忽略，自动使用name值为元素id, 其它值与官方保持一致
-                    range:
-                        true
-                  }
-            #end
-            #if($item.type == 5)
-              ,options: [
-                {
-                  value: '',
-                  labelText: ''
-                }
-              ]
-            #end
-          },
-        #end
-      #end
-    ];
-    var searchForm = cForm.init({
-      formId: 'mySearchForm',
-      container: '.search-content',
-      fieldList: searchField, // 表单配置
-      searchFormConfig: {
-        title: '筛选条件', // 搜索框标题
-        collapsed: false // 是否折叠
-      },
-      // 设置默认值
-      defaultValue: {
-        "phone": "",
-        "age": "",
-        "province": "",
-        "desc": "",
-        "time": ""
-      },
-      saveBtnText: '筛选',
-      /**
-       * 表单提交的事件
-       * @data {Object} 序列化的表单值
-       * @formEl {Object} 包含表单域的各项值
-       */
-      save: function (data, formEl) {
-        myTable.reload("layuiTable", data);
-      }
-    });
-
-    var editForm;
-    // 表格初始化
-    var myTable = commontable.init({
-      url: '/${table.domainObjName}/list.html', // 数据接口
-      toolbar: '#toolBar',
-      id: 'layuiTable',
-      autoSort: false,
-      cols: [
-        [
-          // 标题栏
-          {checkbox: true},
-          #foreach($item in $table.viewTypes)
-            {field: '$item.field', title: '$item.name', align: 'center'},
-          #end
-          {
-            title: '操作',
-            fixed: 'right',
-            align: 'center',
-            // 自定义渲染模板 - html模板 [laytpl规范]
-            toolbar: '#operateBar'
-          }
-        ]
-      ],
-      // 操作 - 事件监听
-      toolCallback: function (obj, context) {
-        var data = obj.data // 获得当前行数据
-        var layEvent = obj.event // 获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-        var tr = obj.tr // 获得当前行 tr 的DOM对象
-
-        console.log(data, layEvent, tr, obj)
-        if (!obj.data) {
-          console.log('err')
-          return
-        }
-
-        if (layEvent === 'delete') {
-          // 删除
-          layer.confirm('确认删除吗？', {
-            title: '提示'
-          }, function (index) {
-            ajax.getJSON({
-              url: "/${table.domainObjName}/delete.html",
-              data: {id: data.id},
-              success: function (resp) {
-                if (resp.c == "100") {
-                  layer.msg("删除成功");
-                  layer.closeAll();
-                  obj.del(); // 删除对应行（tr）的DOM结构，并更新缓存
-                  layer.close(index);
-                } else {
-                  layer.msg(resp.m);
-                }
-              }
-            });
-            // 向服务端发送删除指令
-          })
-        } else if (layEvent === 'edit') {
-          // 编辑
-          editForm = cForm.init({
-            formId: 'popForm',
-            fieldList: editField,
-            layerConfig: {
-              title: '修改',
-              area: '600px'
-            },
-            defaultValue: data,
-            save: function (d) {
-              d.id = data.id;
-              ajax.getJSON({
-                url: "/${table.domainObjName}/update.html",
-                data: d,
-                success: function (resp) {
-                  if (resp.c == "100") {
-                    context.reload("layuiTable");
-                    layer.msg("更新成功");
-                    layer.closeAll();
-                  } else {
-                    layer.msg(resp.m);
-                  }
-                }
-              });
-            }
-          })
-        }
-      },
-      /**
-       * 工具栏时间监听
-       * @param {Object} obj 详见: https://www.layui.com/doc/modules/table.html#ontoolbar
-       * @param {Object} table 当前table的实例对象
-       */
-      toolBarListener: function (obj, table) {
-        var data = obj.data // 获得当前行数据
-        var layEvent = obj.event // 获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-        var tr = obj.tr // 获得当前行 tr 的DOM对象
-
-        console.log(data, layEvent, tr, obj)
-        // if (!obj.data) {
-        //   console.log('err')
-        //   return
-        // }
-
-        // 获取选中的表格数据
-        /*var selectedArr = table.getSelectedRowData();
-        console.log(selectedArr);
-        if (selectedArr.length <= 0) {
-          layer.msg('请最少选择一项')
-          return
-        }*/
-
-        if (layEvent === 'add') {
-          editForm = cForm.init({
-            formId: 'popForm1',
-            fieldList: editField,
-            layerConfig: {
-              title: '派发',
-              area: ['600px', '400px']
-            },
-            save: function (d) {
-              var clueIds = "";
-              for (var i = 0; i < selectedArr.length; i++) {
-                clueIds += selectedArr[i].id + ","
-              }
-              console.log(d)
-              var data = {
-                clueIds: clueIds,
-                consultId: d.consultId
-              };
-              var assignLoad = layer.load(1);
-              ajax.getJSON({
-                url: "/${table.domainObjName}/add.html",
-                data: data,
-                success: function (resp) {
-                  if (resp.c == "100") {
-                    if (resp.d.code == 0) {
-                      table.reload("layuiTable");
-                      layer.msg("添加成功");
-                      layer.closeAll();
-                    }
-                    else {
-                      layer.msg(resp.d.value);
-                    }
-
-                  } else {
-                    layer.msg(resp.m);
-                  }
-                  layer.close(assignLoad);
-                }
-              });
-            }
-          });
-        } else if (layEvent === 'batch-delete') {
-          console.log(data + "被删除")
-        }
-      }
-    })
-  })
-</script>
 </body>
+<script type="text/html" id="toolBar">
+    <a class="layui-btn layui-btn-xs edit" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs delete" lay-event="delete">删除</a>
+</script>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/xadmin.js"></script>
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script>
+    layui.config({
+        base: '/js/module/'
+    })
+</script>
+<script>
+    layui.use(['laydate', 'form', 'jquery', 'layer', "ajax", "table", "global"], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+        var layer = layui.layer;
+        var ajax = layui.ajax;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var global = layui.global;
+        table.render({
+            elem: '#layuiTable'
+            , url: '/$table.domainObjName/list${table.domainClassName}.html'
+            , cols: [[ //标题栏
+                {field: 'id', title: 'ID', width: 80, align: 'center'}
+                #foreach($item in $table.viewTypes)
+                    #if($item.field != "id" && $item.field != "createTime" && $item.field != "updateTime")
+                        , {field: '$item.field', title: '$item.name', align: 'center'}
+                    #end
+                #end
+                , {field: 'createTime', title: '创建时间', align: 'center'}
+                , {field: 'updateTime', title: '更新时间', align: 'center'}
+                , {title: "操作", fixed: 'right', align: 'center', width: 200, toolbar: '#toolBar'}
+            ]]
+            , id: "layuiTable"
+            , loading: true
+            , page: true
+            , limit: 10
+            , limits: [10, 20, 50, 100, 200]
+            , request: {
+                pageName: "pageNo"
+                , limitName: "pageSize"
+
+            }
+            , response: {
+                statusName: 'c' //数据状态的字段名称，默认：code
+                , statusCode: 200 //成功的状态码，默认：0
+                , msgName: 'm' //状态信息的字段名称，默认：msg
+                , countName: 'total' //数据总数的字段名称，默认：count
+                , dataName: 'list' //数据列表的字段名称，默认：data
+            }
+        });
+        $("#addField").click(function () {
+            $("#editDialogForm").trigger("reset");
+            save${table.domainClassName}(false);
+        });
+        $("#search").click(function () {
+            reloadTable();
+        });
+
+        function save${table.domainClassName}(isUpdate, id) {
+            var title = "新增";
+            if (isUpdate) {
+                title = "编辑";
+            }
+            layer.open({
+                type: 1,
+                title: title,
+                area: ['600px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                content: $('#openDialog'),
+                success: function () {
+                    // $('#addGoodsForm').trigger('reset');
+                },
+                btn: ["保存", "关闭"],
+                yes: function (index) {
+                    var data = global.form.serializeJSON("#editDialogForm");
+                    var load = layer.load();
+                    var url = "/${table.domainObjName}/add${table.domainClassName}.html";
+                    if (isUpdate) {
+                        url = "/${table.domainObjName}/update${table.domainClassName}.html";
+                        data.id = id;
+                    }
+
+                    ajax.getJSON({
+                        url: url,
+                        data: data,
+                        success: function (resp) {
+                            if (200 == resp.c) {
+                                reloadTable();
+                            } else {
+                                layer.alert(resp.m)
+                            }
+                            layer.closeAll();
+                        }
+
+                    });
+                },
+                btn2: function (index) {
+                    layer.close(index);
+                }
+            });
+        }
+
+        function reloadTable() {
+            var data = global.form.serializeJSON("#searchForm");
+            table.reload('layuiTable', {where: data});
+        }
+
+        table.on('tool(layuiTable)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'edit') {
+                edit(data);
+            } else if (layEvent == 'delete') {
+                del(data);
+            }
+        });
+
+        function edit(data) {
+            $("#editDialogForm").trigger("reset");
+            global.form.serializeByClass("editDialogForm", data);
+            save${table.domainClassName}(true, data.id);
+            form.render();
+        }
+
+        function del(data) {
+            layer.confirm("确定要删除【" + data.name + "】吗？", function (index) {
+                ajax.getJSON({
+                    url: "/${table.domainObjName}/delete${table.domainClassName}ById.html",
+                    data: {"id": data.id},
+                    success: function (resp) {
+                        if (resp.c == "200") {
+                            layer.msg("删除成功!");
+                            reloadTable();
+                        } else {
+                            layer.msg("删除数据失败:" + resp.m);
+                        }
+                    }
+                });
+                layer.close(index);
+            });
+        }
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '.datetime' //指定元素
+        });
+    });
+</script>
 </html>
