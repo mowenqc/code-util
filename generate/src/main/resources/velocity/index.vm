@@ -163,7 +163,7 @@
             }
             , response: {
                 statusName: 'c' //数据状态的字段名称，默认：code
-                , statusCode: 200 //成功的状态码，默认：0
+                , statusCode: 100 //成功的状态码，默认：0
                 , msgName: 'm' //状态信息的字段名称，默认：msg
                 , countName: 'total' //数据总数的字段名称，默认：count
                 , dataName: 'list' //数据列表的字段名称，默认：data
@@ -206,7 +206,7 @@
                         url: url,
                         data: data,
                         success: function (resp) {
-                            if (200 == resp.c) {
+                            if (100 == resp.c) {
                                 reloadTable();
                             } else {
                                 layer.alert(resp.m)
@@ -251,7 +251,7 @@
                     url: "/${table.domainObjName}/delete${table.domainClassName}ById.html",
                     data: {"id": data.id},
                     success: function (resp) {
-                        if (resp.c == "200") {
+                        if (resp.c == "100") {
                             layer.msg("删除成功!");
                             reloadTable();
                         } else {

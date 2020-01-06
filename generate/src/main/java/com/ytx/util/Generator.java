@@ -33,8 +33,8 @@ public class Generator {
         //项目路径， 比如后台管理:D:\project\learning\business_admin
 //        String fileDir = "D:\\project\\ekaobang\\admin";
         String fileDir = "D:\\develop\\tmp-project\\GrandInternationalEducation";
-        String tableName = "gie_user";
-        PackageName packageName = generatePackageNames("com.gie.admin", "user");
+        String tableName = "gie_order";
+        PackageName packageName = generatePackageNames("com.gie.admin", "order");
         packageName.setControllerModule("admin");
         packageName.setDaoModule("admin");
         packageName.setMapperModule("admin");
