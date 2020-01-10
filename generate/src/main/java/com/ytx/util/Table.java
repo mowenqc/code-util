@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * Created by chutao on 2017/10/13.
+ * Created by  on 2017/10/13.
  */
 public class Table implements Serializable {
     //表名tableName以及根据表名生成的domain类名和对象名

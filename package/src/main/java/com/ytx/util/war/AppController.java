@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * Created by chutao on 2018/4/14.
+ * Created by  on 2018/4/14.
  */
 public class AppController {
     private static BlockingQueue<String> logQueue = new LinkedBlockingQueue<>();

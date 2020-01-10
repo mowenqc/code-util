@@ -11,8 +11,8 @@ set clientModule=%8
 cd /d %projectDir%
 
 if %vcs% EQU 1   (
-svn checkout %repository%/%module%@HEAD --username chutao --password ct2017
-svn checkout %repository%/%clientModule%@HEAD --username chutao --password ct2017
+svn checkout %repository%/%module%@HEAD --username  --password ct2017
+svn checkout %repository%/%clientModule%@HEAD --username  --password ct2017
 )
 if %vcs% EQU 2   (
 git init

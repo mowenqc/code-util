@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Created by chutao on 2017/10/13.
+ * Created by  on 2017/10/13.
  */
 public class TableColumn implements Serializable {
     private String columnName;

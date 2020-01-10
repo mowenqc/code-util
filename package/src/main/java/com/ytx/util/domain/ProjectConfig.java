@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by chutao on 2018/4/14.
+ * Created by  on 2018/4/14.
  */
 public class ProjectConfig {
     //选填，默认windows，可选项(windows,linux）

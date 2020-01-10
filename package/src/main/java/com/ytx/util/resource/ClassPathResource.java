@@ -15,7 +15,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * Created by chutao on 2017/8/10.
+ * Created by  on 2017/8/10.
  */
 public class ClassPathResource implements Resource {
     private URL url;

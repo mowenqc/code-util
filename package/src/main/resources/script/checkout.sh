@@ -10,8 +10,8 @@ clientModule=$8
 
 cd ${projectDir}
 if [ $vcs -eq 1 ];then
-    svn checkout ${repository}/${module}@HEAD  --username chutao --password ct2017
-    svn checkout ${repository}/${clientModule}@HEAD  --username chutao --password ct2017
+    svn checkout ${repository}/${module}@HEAD  --username  --password ct2017
+    svn checkout ${repository}/${clientModule}@HEAD  --username  --password ct2017
 fi
 if [ $vcs -eq 2 ];then
     git init

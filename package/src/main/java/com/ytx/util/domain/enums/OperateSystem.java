@@ -1,7 +1,7 @@
 package com.ytx.util.domain.enums;
 
 /**
- * Created by chutao on 2017/12/13.
+ * Created by  on 2017/12/13.
  */
 public enum OperateSystem {
     WINDOWS(1,"windows","script/checkout.cmd","script/build.cmd"),
