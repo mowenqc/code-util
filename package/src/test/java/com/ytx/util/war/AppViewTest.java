@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- * Created by chutao on 2018/4/17.
+ * Created by  on 2018/4/17.
  */
 public class AppViewTest {
     @Test
