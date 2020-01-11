@@ -1,18 +1,23 @@
-package $daoPackageName;
+package $dataInfo.daoPackage;
 
 
-import ${domainPackageName}.${table.domainClassName};
+import ${dataInfo.domainPackage}.${table.domainClassName};
 import org.springframework.stereotype.Repository;
 import com.ytx.common.web.Page;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
-
+/**
+* @description: $!table.comment
+* @author: $!config.user
+* @createTime: $!config.time
+*/
 @Repository
 public interface ${table.domainClassName}Mapper{
 
     /**
-    * 新增${table.domainObjName}
+    * 新增${table.domainObjName} -> ${table.tableName}
     * @param ${table.domainObjName}
     * @return
     */
@@ -23,10 +28,10 @@ public interface ${table.domainClassName}Mapper{
     * @param ${table.domainObjName} 对象中包含Id
     * @return
     */
-    void delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName});
+    void delete${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
 
     /***
-    * 修改${table.domainObjName}
+    * 修改${table.domainObjName} -> ${table.tableName}
     * @param ${table.domainObjName}
     * @return
     */
@@ -45,7 +50,7 @@ public interface ${table.domainClassName}Mapper{
     * @param ${table.domainObjName} 参数数据
     * @return ${table.domainObjName} list
     */
-    List<${table.domainClassName}> list${table.domainClassName}(@Param("obj")${table.domainClassName} ${table.domainObjName},@Param("page") Page page);
+    List<${table.domainClassName}> list${table.domainClassName}(@Param("obj")${table.domainClassName} ${table.domainObjName},@Param("page") RowBounds page);
 
     /***
     * count总数

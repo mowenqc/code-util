@@ -1,14 +1,21 @@
-package $servicePackageName;
+package $servicePackage;
 
 import com.ytx.common.web.Page;
-import $daoPackageName.${table.domainClassName}Mapper;
-import ${domainPackageName}.${table.domainClassName};
-import ${iServicePackageName}.I${table.domainClassName}Service;
+import $dataInfo.daoPackage.${table.domainClassName}Mapper;
+import ${dataInfo.domainPackage}.${table.domainClassName};
+import ${dataInfo.interfacePackage}.I${table.domainClassName}Service;
 import org.springframework.stereotype.Service;
+import org.apache.ibatis.session.RowBounds;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Date;
+
+/**
+* @description: $!table.comment
+* @author: $!config.user
+* @createTime: $!config.time
+*/
 
 @Service
 public class ${table.domainClassName}Service implements I${table.domainClassName}Service {
@@ -32,7 +39,7 @@ public class ${table.domainClassName}Service implements I${table.domainClassName
     */
     @Override
     public void delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}) {
-        ${table.domainObjName}Mapper.delete${table.domainClassName}ById(${table.domainObjName});
+        ${table.domainObjName}Mapper.delete${table.domainClassName}(${table.domainObjName});
     }
 
     /***
@@ -62,7 +69,8 @@ public class ${table.domainClassName}Service implements I${table.domainClassName
     */
     @Override
     public List<${table.domainClassName}> list${table.domainClassName}(${table.domainClassName} ${table.domainObjName}, Page page) {
-        return ${table.domainObjName}Mapper.list${table.domainClassName}(${table.domainObjName}, page);
+        RowBounds row = new RowBounds(page.getStart(),page.getPageSize());
+        return ${table.domainObjName}Mapper.list${table.domainClassName}(${table.domainObjName}, row);
     }
 
     /***

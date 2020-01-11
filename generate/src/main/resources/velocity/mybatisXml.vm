@@ -1,10 +1,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="${daoPackageName}.${table.domainClassName}Mapper">
-    <resultMap id="${table.domainObjName}" type="${domainPackageName}.${table.domainClassName}">
+<mapper namespace="${dataInfo.daoPackage}.${table.domainClassName}Mapper">
+    <resultMap id="${table.domainObjName}" type="${dataInfo.domainPackage}.${table.domainClassName}">
         #foreach($column in $table.columnList)
-            #if($column.columnName == 'id')
+            #if($column.priKey == 3)
                 <id column="${column.columnName}" property="${column.fieldName}"/>
             #else
                 <result column="${column.columnName}" property="${column.fieldName}"/>
@@ -15,8 +15,7 @@
         #foreach($column in $table.columnList)`$column.columnName`#if($foreach.count < $table.columnList.size())
             ,#end#end
     </sql>
-    <insert id="add${table.domainClassName}" parameterType="${domainPackageName}.${table.domainClassName}"
-            useGeneratedKeys="true" keyProperty="id">
+    <insert id="add${table.domainClassName}" parameterType="${dataInfo.domainPackage}.${table.domainClassName}" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO ${table.tableName} (
         <include refid="${table.domainObjName}Column"></include>
         )
@@ -29,19 +28,32 @@
         #if($foreach.count < $table.columnList.size()),
         #end#end)
     </insert>
-    <delete id="delete${table.domainClassName}ById" parameterType="int">
-        DELETE FROM ${table.tableName} WHERE id = #{id}
+    <delete id="delete${table.domainClassName}" parameterType="${dataInfo.domainPackage}.${table.domainClassName}">
+        DELETE FROM ${table.tableName}
+        <where>
+            #foreach($column in $table.columnList)
+                #if($column.priKey == 3)
+                    and ${column.columnName} = #{${column.fieldName}}
+                #end
+            #end
+        </where>
     </delete>
-    <update id="update${table.domainClassName}" parameterType="${domainPackageName}.${table.domainClassName}">
+    <update id="update${table.domainClassName}" parameterType="${dataInfo.domainPackage}.${table.domainClassName}">
         UPDATE ${table.tableName} SET update_time = now()
         #foreach($item in $table.columnList)
             #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
                 ,$item.columnName = #{$item.fieldName}
             #end
         #end
-        WHERE id = #{id}
+        <where>
+            #foreach($column in $table.columnList)
+                #if($column.priKey == 3)
+                    and ${column.columnName} = #{${column.fieldName}}
+                #end
+            #end
+        </where>
     </update>
-    <select id="find${table.domainClassName}" parameterType="${domainPackageName}.${table.domainClassName}"
+    <select id="find${table.domainClassName}" parameterType="${domainPackage}.${table.domainClassName}"
             resultMap="${table.domainObjName}">
         select
         <include refid="${table.domainObjName}Column"></include>
@@ -71,10 +83,10 @@
         </where>
         order by create_time desc
         <if test="page != null">
-            limit #{page.start}, #{page.pageSize}
+            limit #{page.offset}, #{page.limit}
         </if>
     </select>
-    <select id="count${table.domainClassName}" parameterType="${domainPackageName}.${table.domainClassName}"
+    <select id="count${table.domainClassName}" parameterType="${dataInfo.domainPackage}.${table.domainClassName}"
             resultType="int">
         select count(*)
         from ${table.tableName}

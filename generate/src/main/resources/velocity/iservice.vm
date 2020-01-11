@@ -1,10 +1,15 @@
-package $iServicePackageName;
+package $dataInfo.interfacePackage;
 
 import com.ytx.common.web.Page;
-import ${domainPackageName}.${table.domainClassName};
+import ${dataInfo.domainPackage}.${table.domainClassName};
 
 import java.util.List;
 
+/**
+* @description: $!table.comment
+* @author: $!config.user
+* @createTime: $!config.time
+*/
 public interface I${table.domainClassName}Service {
 
     /**

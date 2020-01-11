@@ -1,9 +1,9 @@
-package ${controllerPackageName};
+package $dataInfo.controllerPackage;
 
 import com.ytx.common.web.Page;
 import com.ytx.common.web.BaseController;
-import ${iServicePackageName}.I${table.domainClassName}Service;
-import ${domainPackageName}.${table.domainClassName};
+import ${dataInfo.interfacePackage}.I${table.domainClassName}Service;
+import ${dataInfo.domainPackage}.${table.domainClassName};
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,6 +15,11 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Date;
 
+/**
+* @description: $!table.comment
+* @author: $!config.user
+* @createTime: $!config.time
+*/
 @Controller
 @RequestMapping("${table.domainObjName}")
 public class ${table.domainClassName}Controller extends BaseController{
@@ -29,8 +34,7 @@ public class ${table.domainClassName}Controller extends BaseController{
     }
 
     /**
-     * 新增
-     *
+     * 新增${table.domainClassName} -> ${table.tableName}
      * @param ${table.domainObjName}
      * @return
      */
@@ -46,7 +50,7 @@ public class ${table.domainClassName}Controller extends BaseController{
         }
     }
     /**
-     * 删除
+     * 删除 ${table.domainClassName} -> ${table.tableName}
      * @return
      */
     @RequestMapping("delete${table.domainClassName}ById.html")
@@ -62,7 +66,7 @@ public class ${table.domainClassName}Controller extends BaseController{
     }
 
     /***
-     * 修改
+     * 修改 ${table.domainClassName} -> ${table.tableName}
      * @param ${table.domainObjName}
      * @return
      */

@@ -1,0 +1,127 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${dataInfo.daoPackageName}.RegionMapper">
+    <resultMap id="region" type="${dataInfo.domainPackageName}.Region">
+                                    <id column="id" property="id"/>
+                                                <result column="source" property="source"/>
+                                                <result column="name" property="name"/>
+                                                <result column="type" property="type"/>
+                                                <result column="status" property="status"/>
+                                                <result column="content" property="content"/>
+                                                <result column="create_time" property="createTime"/>
+                                                <result column="update_time" property="updateTime"/>
+                        </resultMap>
+    <sql id="regionColumn">
+        `id`            ,`source`            ,`name`            ,`type`            ,`status`            ,`content`            ,`create_time`            ,`update_time`    </sql>
+    <insert id="addRegion" parameterType="${dataInfo.domainPackageName}.Region" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO gie_region (
+        <include refid="regionColumn"></include>
+        )
+        VALUES(                    #{id}
+                ,
+                            #{source}
+                ,
+                            #{name}
+                ,
+                            #{type}
+                ,
+                            #{status}
+                ,
+                            #{content}
+                ,
+                            now()
+                ,
+                            now()
+                )
+    </insert>
+    <delete id="deleteRegion" parameterType="${dataInfo.domainPackageName}.Region">
+        DELETE FROM gie_region
+        <where>
+                                                and id = #{id}
+                                                                                                                                                                                                                                        </where>
+    </delete>
+    <update id="updateRegion" parameterType="${dataInfo.domainPackageName}.Region">
+        UPDATE gie_region SET update_time = now()
+                                                        ,source = #{source}
+                                                ,name = #{name}
+                                                ,type = #{type}
+                                                ,status = #{status}
+                                                ,content = #{content}
+                                                                    <where>
+                                                and id = #{id}
+                                                                                                                                                                                                                                        </where>
+    </update>
+    <select id="findRegion" parameterType="com.gie.admin.region.mapper.Region"
+            resultMap="region">
+        select
+        <include refid="regionColumn"></include>
+        from gie_region
+        <where>
+                                                                            <if test="source != null and source != ''">
+                        and source = #{source}
+                    </if>
+                                                                <if test="name != null and name != ''">
+                        and name = #{name}
+                    </if>
+                                                                <if test="type != null and type != ''">
+                        and type = #{type}
+                    </if>
+                                                                <if test="status != null and status != ''">
+                        and status = #{status}
+                    </if>
+                                                                <if test="content != null and content != ''">
+                        and content = #{content}
+                    </if>
+                                                                                            </where>
+    </select>
+    <select id="listRegion" parameterType="map" resultMap="region">
+        select
+        <include refid="regionColumn"></include>
+        from gie_region
+        <where>
+                                                                            <if test="obj.source != null and obj.source != ''">
+                        and source = #{obj.source}
+                    </if>
+                                                                <if test="obj.name != null and obj.name != ''">
+                        and name = #{obj.name}
+                    </if>
+                                                                <if test="obj.type != null and obj.type != ''">
+                        and type = #{obj.type}
+                    </if>
+                                                                <if test="obj.status != null and obj.status != ''">
+                        and status = #{obj.status}
+                    </if>
+                                                                <if test="obj.content != null and obj.content != ''">
+                        and content = #{obj.content}
+                    </if>
+                                                                                            </where>
+        order by create_time desc
+        <if test="page != null">
+            limit #{page.offset}, #{page.limit}
+        </if>
+    </select>
+    <select id="countRegion" parameterType="com.gie.admin.region.mapper.Region"
+            resultType="int">
+        select count(*)
+        from gie_region
+        <where>
+                                                                            <if test="source != null and source != ''">
+                        and source = #{source}
+                    </if>
+                                                                <if test="name != null and name != ''">
+                        and name = #{name}
+                    </if>
+                                                                <if test="type != null and type != ''">
+                        and type = #{type}
+                    </if>
+                                                                <if test="status != null and status != ''">
+                        and status = #{status}
+                    </if>
+                                                                <if test="content != null and content != ''">
+                        and content = #{content}
+                    </if>
+                                                                                            </where>
+    </select>
+</mapper>
+
