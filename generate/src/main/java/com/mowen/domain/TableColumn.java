@@ -1,6 +1,8 @@
 package com.mowen.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -107,7 +109,8 @@ public class TableColumn implements Serializable {
     }
 
     private String generateFieldType(String columnType, boolean isNullable) {
-        switch (columnType) {
+        String type = columnType == null?"":columnType.toLowerCase();
+        switch (type) {
             case "bigint": {
                 return "Long";
             }
@@ -139,8 +142,9 @@ public class TableColumn implements Serializable {
     private String generateFieldName(String columnName) {
         String[] tmpArray = checkName(columnName);
         StringBuilder sb = new StringBuilder();
+
         sb.append(tmpArray[0]);
-        for (int i = config.getDeleteSplit(); i < tmpArray.length; i++) {
+        for (int i = config.getDeleteSplit()+1; i < tmpArray.length; i++) {
             String word = tmpArray[i];
             word = firstLetterToUpper(word);
             sb.append(word);
@@ -175,11 +179,15 @@ public class TableColumn implements Serializable {
         if (tmpArray == null || tmpArray.length == 0) {
             throw new IllegalArgumentException("表名或字段名为空");
         }
+        List<String> list = new ArrayList<>();
+        for (String s : tmpArray) {
+            if(s != null && s.length() > 0){
+                list.add(s);
+            }
+        }
+        tmpArray = list.toArray(new String[0]);
         for (int i = 0; i < tmpArray.length; i++) {
             String word = tmpArray[i];
-            if (word.length() == 0) {
-                throw new IllegalArgumentException("表名或字段名中的单词不能为空");
-            }
             if (!Character.isLetter(word.charAt(0))) {
                 throw new IllegalArgumentException("表名或字段名中的单词首字母必须是字母");
             }

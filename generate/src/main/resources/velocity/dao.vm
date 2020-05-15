@@ -3,59 +3,62 @@ package $dataInfo.daoPackage;
 
 import ${dataInfo.domainPackage}.${table.domainClassName};
 import org.springframework.stereotype.Repository;
-import com.ytx.common.web.Page;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.session.RowBounds;
-
+import org.apache.ibatis.annotations.Mapper;
+import com.sales.common.domain.Page;
 import java.util.List;
 /**
 * @description: $!table.comment
 * @author: $!config.user
 * @createTime: $!config.time
+* entityName: ${table.domainObjName}
+* tableName: ${table.tableName}
 */
 @Repository
+@Mapper
 public interface ${table.domainClassName}Mapper{
 
     /**
-    * 新增${table.domainObjName} -> ${table.tableName}
+    * 新增
     * @param ${table.domainObjName}
-    * @return
+    * @return 添加后返回主键
     */
-    int add${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+    int insert(${table.domainClassName} ${table.domainObjName});
 
     /**
-    * 删除${table.domainObjName}
-    * @param ${table.domainObjName} 对象中包含Id
+    * 根据ID删除
+    * @param id
     * @return
     */
-    void delete${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+    void deleteById (@Param("id")int id);
 
     /***
-    * 修改${table.domainObjName} -> ${table.tableName}
+    * 修改
     * @param ${table.domainObjName}
     * @return
     */
-    void update${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+    void update(${table.domainClassName} ${table.domainObjName});
 
     /**
     * 根据ID查找
-    * @param ${table.domainObjName}
+    * @param id
     * @return ${table.domainObjName}
     */
-    ${table.domainClassName} find${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+    ${table.domainClassName} findById(int id);
 
     /***
     * 分页查找
-    * @param page
+    * @param p 分页参数
     * @param ${table.domainObjName} 参数数据
     * @return ${table.domainObjName} list
     */
-    List<${table.domainClassName}> list${table.domainClassName}(@Param("obj")${table.domainClassName} ${table.domainObjName},@Param("page") RowBounds page);
+    List<${table.domainClassName}> list(@Param("e")${table.domainClassName} ${table.domainObjName}
+                                        ,@Param("p") Page p);
 
     /***
     * count总数
-    *
+    * @param ${table.domainObjName} 参数数据
     * @return
     */
-    int count${table.domainClassName}(${table.domainClassName} ${table.domainObjName});
+    int count(${table.domainClassName} ${table.domainObjName});
 }

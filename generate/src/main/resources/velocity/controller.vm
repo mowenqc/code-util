@@ -1,84 +1,84 @@
 package $dataInfo.controllerPackage;
 
-import com.ytx.common.web.Page;
-import com.ytx.common.web.BaseController;
 import ${dataInfo.interfacePackage}.I${table.domainClassName}Service;
 import ${dataInfo.domainPackage}.${table.domainClassName};
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import com.sales.common.base.BaseController;
+import com.sales.common.domain.Page;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.apache.ibatis.session.RowBounds;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Date;
+import com.sales.common.domain.CommonResponse;
+import com.sales.common.code.CommonCode;
 
 /**
 * @description: $!table.comment
 * @author: $!config.user
 * @createTime: $!config.time
 */
-@Controller
-@RequestMapping("${table.domainObjName}")
+@RestController
+@RequestMapping(value = "${table.domainObjName}",method = RequestMethod.POST)
+@Api(tags = "${table.comment}")
 public class ${table.domainClassName}Controller extends BaseController{
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LogManager.getLogger(getClass());
 
     @Resource
     private I${table.domainClassName}Service ${table.domainObjName}Service;
 
-    @RequestMapping("index.html")
-    public String index(){
-        return "${table.domainObjName}/index";
-    }
-
     /**
-     * 新增${table.domainClassName} -> ${table.tableName}
+     * 新增
      * @param ${table.domainObjName}
      * @return
      */
-    @RequestMapping("add${table.domainClassName}.html")
-    @ResponseBody
-    public String add${table.domainClassName}(${table.domainClassName} ${table.domainObjName}){
+    @RequestMapping("insert")
+    @ApiOperation(value = "新增",notes = "添加新的记录",response = CommonResponse.class)
+    public CommonResponse insert (@RequestBody @ApiParam(name = "${table.domainObjName}",value = "${table.domainClassName}实体类",required = true)${table.domainClassName} ${table.domainObjName}){
         try {
-            ${table.domainObjName}Service.add${table.domainClassName}(${table.domainObjName});
-            return buildSuccessResponse();
+            ${table.domainObjName}Service.insert(${table.domainObjName});
+            return buildSuccessResult();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return this.buildErrorResponse(e.getMessage());
+            return buildErrorResult(CommonCode.SERVER_ERROR.getCode(), CommonCode.SERVER_ERROR.getValue());
         }
     }
     /**
-     * 删除 ${table.domainClassName} -> ${table.tableName}
+     * 根据ID删除
      * @return
      */
-    @RequestMapping("delete${table.domainClassName}ById.html")
-    @ResponseBody
-    public String delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}){
+    @RequestMapping("deleteById")
+    @ApiOperation(value = "根据ID删除",notes = "根据id删除一条数据",response = CommonResponse.class)
+    public CommonResponse deleteById(@RequestBody Integer id){
         try {
-            ${table.domainObjName}Service.delete${table.domainClassName}ById(${table.domainObjName});
-            return buildSuccessResponse();
+            ${table.domainObjName}Service.deleteById(id);
+            return buildSuccessResult();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return this.buildErrorResponse(e.getMessage());
+            return buildErrorResult(CommonCode.SERVER_ERROR.getCode(), CommonCode.SERVER_ERROR.getValue());
         }
     }
 
     /***
-     * 修改 ${table.domainClassName} -> ${table.tableName}
+     * 修改
      * @param ${table.domainObjName}
      * @return
      */
-    @RequestMapping("update${table.domainClassName}.html")
-    @ResponseBody
-    public String update${table.domainClassName}(${table.domainClassName} ${table.domainObjName}){
+    @RequestMapping("update")
+    @ApiOperation(value = "修改",notes = "根据id修改其他数据",response = CommonResponse.class)
+    public CommonResponse update(@RequestBody @ApiParam(name = "${table.domainObjName}",value = "${table.domainClassName}实体类",required = true)${table.domainClassName} ${table.domainObjName}){
         try {
-            ${table.domainObjName}Service.update${table.domainClassName}(${table.domainObjName});
-            return buildSuccessResponse();
+            ${table.domainObjName}Service.update(${table.domainObjName});
+            return buildSuccessResult();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return this.buildErrorResponse(e.getMessage());
+            return buildErrorResult(CommonCode.SERVER_ERROR.getCode(), CommonCode.SERVER_ERROR.getValue());
         }
     }
 
@@ -86,15 +86,15 @@ public class ${table.domainClassName}Controller extends BaseController{
      * 根据ID查找
      * @return
      */
-    @RequestMapping("find${table.domainClassName}ById.html")
-    @ResponseBody
-    public String find${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}){
+    @RequestMapping("findById")
+    @ApiOperation(value = "根据ID查询",notes = "根据ID查询一条数据",response = CommonResponse.class)
+    public CommonResponse findById(@RequestBody Integer id){
         try {
-            ${table.domainClassName} result${table.domainObjName} = ${table.domainObjName}Service.find${table.domainClassName}(${table.domainObjName});
-            return buildSuccessResponse(result${table.domainObjName});
+            ${table.domainClassName} result${table.domainObjName} = ${table.domainObjName}Service.findById(id);
+            return buildSuccessResult(result${table.domainObjName});
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return this.buildErrorResponse(e.getMessage());
+            return buildErrorResult(CommonCode.SERVER_ERROR.getCode(), CommonCode.SERVER_ERROR.getValue());
         }
     }
 
@@ -102,16 +102,17 @@ public class ${table.domainClassName}Controller extends BaseController{
      * 分页获取属性列表
      * @return
      */
-    @RequestMapping("list${table.domainClassName}.html")
-    @ResponseBody
-    public String list${table.domainClassName}(${table.domainClassName} ${table.domainObjName}, Page page){
+    @RequestMapping("list")
+    @ApiOperation(value = "分页获取",notes = "分页获取",response = CommonResponse.class)
+    public CommonResponse list${table.domainClassName}(@RequestBody @ApiParam(name = "${table.domainObjName}",value = "${table.domainClassName}实体类",required = true)${table.domainClassName} ${table.domainObjName},
+                                                @RequestBody @ApiParam(name = "page",value = "分页实体类",required = true)Page page){
         try {
-            List<${table.domainClassName}> list = ${table.domainObjName}Service.list${table.domainClassName}(${table.domainObjName}, page);
-            int count = ${table.domainObjName}Service.count${table.domainClassName}(${table.domainObjName});
-            return buildTableSuccessRespone(count, list);
+            List<${table.domainClassName}> list = ${table.domainObjName}Service.list(${table.domainObjName}, page);
+            int count = ${table.domainObjName}Service.count(${table.domainObjName});
+            return buildSuccessPageResult(list,count);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return this.buildTableErrorRespone(e.getMessage());
+            return buildErrorResult(CommonCode.SERVER_ERROR.getCode(), CommonCode.SERVER_ERROR.getValue());
         }
     }
 }

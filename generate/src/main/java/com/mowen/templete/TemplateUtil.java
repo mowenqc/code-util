@@ -171,13 +171,16 @@ public class TemplateUtil {
         }
         if (isModuleExist(config.getModuleName(), config.getViewModule())) {
             String filePath = config.getProjectPath() + File.separator + validateModule(config.getModuleName(), config.getViewModule())
-                    + "/src/main/webapp/WEB-INF" + File.separator + config.getViewTemplate() + File.separator + dataInfo.getTable().getDomainObjName();
+                    + "/src/main/resources/templates" + File.separator + dataInfo.getTable().getDomainObjName();
             String fileName = null;
             if ("tpl".equals(config.getViewTemplate())) {
                 fileName = dataInfo.getTable().getDomainClassName() + ".vm";
-            } else if ("ftl".equals(config.getViewTemplate())) {
+            }  else if ("ftl".equals(config.getViewTemplate())) {
                 fileName = dataInfo.getTable().getDomainClassName() + ".ftl";
-            } else {
+            }  else if ("ftlh".equals(config.getViewTemplate())) {
+                fileName = "index.ftlh";
+            }
+            else {
                 fileName = dataInfo.getTable().getDomainClassName() + ".jsp";
             }
             finalWriter(filePath, fileName, generateView(config, dataInfo));

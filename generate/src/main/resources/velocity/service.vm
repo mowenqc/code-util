@@ -1,15 +1,13 @@
-package $servicePackage;
+package $dataInfo.servicePackage;
 
-import com.ytx.common.web.Page;
 import $dataInfo.daoPackage.${table.domainClassName}Mapper;
 import ${dataInfo.domainPackage}.${table.domainClassName};
 import ${dataInfo.interfacePackage}.I${table.domainClassName}Service;
 import org.springframework.stereotype.Service;
-import org.apache.ibatis.session.RowBounds;
-
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Date;
+import com.sales.common.domain.Page;
 
 /**
 * @description: $!table.comment
@@ -28,18 +26,18 @@ public class ${table.domainClassName}Service implements I${table.domainClassName
     * @return
     */
     @Override
-    public int add${table.domainClassName}(${table.domainClassName} ${table.domainObjName}) {
-        return ${table.domainObjName}Mapper.add${table.domainClassName}(${table.domainObjName});
+    public int insert (${table.domainClassName} ${table.domainObjName}) {
+        return ${table.domainObjName}Mapper.insert(${table.domainObjName});
     }
 
     /**
     * 删除
-    * @param ${table.domainObjName}
+    * @param id
     * @return
     */
     @Override
-    public void delete${table.domainClassName}ById(${table.domainClassName} ${table.domainObjName}) {
-        ${table.domainObjName}Mapper.delete${table.domainClassName}(${table.domainObjName});
+    public void deleteById(int id) {
+        ${table.domainObjName}Mapper.deleteById(id);
     }
 
     /***
@@ -48,18 +46,18 @@ public class ${table.domainClassName}Service implements I${table.domainClassName
     * @return
     */
     @Override
-    public void update${table.domainClassName}(${table.domainClassName} ${table.domainObjName}) {
-        ${table.domainObjName}Mapper.update${table.domainClassName}(${table.domainObjName});
+    public void update(${table.domainClassName} ${table.domainObjName}) {
+        ${table.domainObjName}Mapper.update (${table.domainObjName});
     }
 
     /**
-    * 根据ID查找
-    * @param ${table.domainObjName}
+    * 获取单个
+    * @param id
     * @return
     */
     @Override
-    public ${table.domainClassName} find${table.domainClassName}(${table.domainClassName} ${table.domainObjName}) {
-        return ${table.domainObjName}Mapper.find${table.domainClassName}(${table.domainObjName});
+    public ${table.domainClassName} findById (int id) {
+        return ${table.domainObjName}Mapper.findById(id);
     }
 
     /***
@@ -68,17 +66,17 @@ public class ${table.domainClassName}Service implements I${table.domainClassName
     * @return
     */
     @Override
-    public List<${table.domainClassName}> list${table.domainClassName}(${table.domainClassName} ${table.domainObjName}, Page page) {
-        RowBounds row = new RowBounds(page.getStart(),page.getPageSize());
-        return ${table.domainObjName}Mapper.list${table.domainClassName}(${table.domainObjName}, row);
+    public List<${table.domainClassName}> list(${table.domainClassName} ${table.domainObjName}, Page page) {
+        return ${table.domainObjName}Mapper.list(${table.domainObjName}, page);
     }
 
     /***
     * count总数
+    * @param ${table.domainObjName} 参数数据
     * @return
     */
     @Override
-    public int count${table.domainClassName}(${table.domainClassName} ${table.domainObjName}) {
-        return ${table.domainObjName}Mapper.count${table.domainClassName}(${table.domainObjName});
+    public int count(${table.domainClassName} ${table.domainObjName}) {
+        return ${table.domainObjName}Mapper.count(${table.domainObjName});
     }
 }

@@ -17,7 +17,7 @@
         <jdbc.groupId>mysql</jdbc.groupId>
         <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
         <jdbc.version>5.1.21</jdbc.version>
-        <springframework.version>4.0.5.RELEASE</springframework.version>
+        <springframework.version>5.1.6.RELEASE</springframework.version>
     </properties>
 
     <dependencyManagement>
@@ -75,14 +75,6 @@
                 <artifactId>commons-httpclient</artifactId>
                 <version>3.1</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.ytx.learning</groupId>
-                <artifactId>order_client</artifactId>
-                <version>1.1-SNAPSHOT</version>
-            </dependency>
-
-
             <!-- spring begin -->
             <dependency>
                 <groupId>org.springframework</groupId>

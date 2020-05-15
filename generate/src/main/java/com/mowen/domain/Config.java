@@ -212,7 +212,7 @@ public class Config {
             config.setModuleName(moduleName);
             config.setControllerModule(controllerModule);
             config.setDaoModule(daoModule);
-            config.setModuleName(mapperModule);
+            config.setMapperModule(mapperModule);
             config.setServiceModule(serviceModule);
             config.setInterfaceModule(interfaceModule);
             config.setViewModule(viewModule);
@@ -224,7 +224,6 @@ public class Config {
             config.setGroupId(groupId);
             config.setDeleteSplit(deleteSplit);
             config.setViewTemplate(viewTemplate);
-            config.setMapperModule(mapperModule);
             config.setDomainModule(domainModule);
             config.setSchema(schema);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

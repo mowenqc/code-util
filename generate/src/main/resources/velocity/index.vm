@@ -116,9 +116,9 @@
     <a class="layui-btn layui-btn-xs edit" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs delete" lay-event="delete">删除</a>
 </script>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/xadmin/jquery.min.js"></script>
 <script src="/lib/layui/layui.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/xadmin.js"></script>
+<script type="text/javascript" src="/js/xadmin/xadmin.js"></script>
 <!--[if lt IE 9]>
 <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -139,7 +139,7 @@
         var global = layui.global;
         table.render({
             elem: '#layuiTable'
-            , url: '/$table.domainObjName/list${table.domainClassName}.html'
+            , url: '/$table.domainObjName/list'
             , cols: [[ //标题栏
                 {field: 'id', title: 'ID', width: 80, align: 'center'}
                 #foreach($item in $table.viewTypes)
@@ -162,11 +162,11 @@
 
             }
             , response: {
-                statusName: 'c' //数据状态的字段名称，默认：code
-                , statusCode: 100 //成功的状态码，默认：0
-                , msgName: 'm' //状态信息的字段名称，默认：msg
-                , countName: 'total' //数据总数的字段名称，默认：count
-                , dataName: 'list' //数据列表的字段名称，默认：data
+                statusName: 'code' //数据状态的字段名称，默认：code
+                , statusCode: 200 //成功的状态码，默认：0
+                , msgName: 'msg' //状态信息的字段名称，默认：msg
+                , countName: 'count' //数据总数的字段名称，默认：count
+                , dataName: 'data' //数据列表的字段名称，默认：data
             }
         });
         $("#addField").click(function () {
@@ -196,9 +196,9 @@
                 yes: function (index) {
                     var data = global.form.serializeJSON("#editDialogForm");
                     var load = layer.load();
-                    var url = "/${table.domainObjName}/add${table.domainClassName}.html";
+                    var url = "/${table.domainObjName}/insert";
                     if (isUpdate) {
-                        url = "/${table.domainObjName}/update${table.domainClassName}.html";
+                        url = "/${table.domainObjName}/update";
                         data.id = id;
                     }
 
@@ -248,7 +248,7 @@
         function del(data) {
             layer.confirm("确定要删除【" + data.name + "】吗？", function (index) {
                 ajax.getJSON({
-                    url: "/${table.domainObjName}/delete${table.domainClassName}ById.html",
+                    url: "/${table.domainObjName}/deleteById",
                     data: {"id": data.id},
                     success: function (resp) {
                         if (resp.c == "100") {

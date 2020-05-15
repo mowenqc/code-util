@@ -22,17 +22,18 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        String url = "jdbc:mysql://mysql.ytx.com/gie?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&idleConnectionTestPeriod=120&preferredTestQuery=select now()&serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/sale_system?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&idleConnectionTestPeriod=120&preferredTestQuery=select now()&serverTimezone=UTC";
         String userName = "root";
-        String password = "ytxroot";
-        String fileDir = "D:\\develop\\tmp-project\\GrandInternationalEducation";
-        String tableName = "gie_region";
-        String groupId = "com.gie.admin";
-        String pName= "region";
-        String schema = "gie";
-        Config config = Config.builder().controllerModule("admin").daoModule("admin").mapperModule("admin").
-                serviceModule("admin").viewTemplate("tpl").deleteSplit(1).schema(schema).
-                interfaceModule("admin").viewModule("admin").domainModule("admin").groupId(groupId).packageName(pName).url(url).userName(userName).
+        String password = "mowen123";
+        String fileDir = "G:\\develop\\sale-system";
+        String tableName = "attribute_value";
+        String groupId = "com.exam.sales.admin";
+        String pName= "attribute";
+        String schema = "sale_system";
+        String module = "sale-admin";
+        Config config = Config.builder().controllerModule(module).daoModule(module).mapperModule(module).
+                serviceModule(module).deleteSplit(0).schema(schema).viewTemplate("ftlh").viewModule(module).
+                interfaceModule(module).domainModule(module).groupId(groupId).packageName(pName).url(url).userName(userName).
                 password(password).projectPath(fileDir).tableName(tableName).build();
 
         DataLoader dataLoader = new DataLoader(config);
