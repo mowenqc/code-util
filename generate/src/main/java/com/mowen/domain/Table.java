@@ -122,7 +122,10 @@ public class Table implements Serializable {
     private String generateClassName(String tableName) {
         String[] tmpArray = checkTableName(tableName);
         StringBuilder sb = new StringBuilder();
-        for (int i = config.getDeleteSplit(); i < tmpArray.length; i++) {
+        /*for (int i = config.getDeleteSplit(); i < tmpArray.length; i++) {
+            sb.append(TableColumn.firstLetterToUpper(tmpArray[i]));
+        }*/
+         for (int i = 1; i < tmpArray.length; i++) {
             sb.append(TableColumn.firstLetterToUpper(tmpArray[i]));
         }
         return sb.toString();

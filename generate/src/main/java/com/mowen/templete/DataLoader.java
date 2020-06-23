@@ -63,7 +63,7 @@ public class DataLoader {
             viewType.setType(1);
             String type = "";
             String comment = column.getComment();
-            System.out.println(comment);
+            System.out.println("xx=" + comment);
             String title = comment;
             if (comment != null && comment != "") {
                 String[] split = comment.split("\\|");

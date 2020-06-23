@@ -60,5 +60,5 @@ public interface ${table.domainClassName}Mapper{
     * @param ${table.domainObjName} 参数数据
     * @return
     */
-    int count(${table.domainClassName} ${table.domainObjName});
+    int count(@Param("e")${table.domainClassName} ${table.domainObjName});
 }

@@ -206,10 +206,10 @@
                         url: url,
                         data: data,
                         success: function (resp) {
-                            if (100 == resp.c) {
+                            if (200 == resp.code) {
                                 reloadTable();
                             } else {
-                                layer.alert(resp.m)
+                                layer.alert(resp.msg)
                             }
                             layer.closeAll();
                         }
@@ -251,11 +251,11 @@
                     url: "/${table.domainObjName}/deleteById",
                     data: {"id": data.id},
                     success: function (resp) {
-                        if (resp.c == "100") {
+                        if (resp.code == "200") {
                             layer.msg("删除成功!");
                             reloadTable();
                         } else {
-                            layer.msg("删除数据失败:" + resp.m);
+                            layer.msg("删除数据失败:" + resp.msg);
                         }
                     }
                 });

@@ -12,7 +12,8 @@
         #end
     </resultMap>
     <sql id="allColumn">
-        #foreach($column in $table.columnList) `$column.columnName` #if($foreach.count < $table.columnList.size()) ,#end #end
+        #foreach($column in $table.columnList) `$column.columnName`#if($foreach.count < $table.columnList.size()),#end#end
+
     </sql>
 
     <sql id="tableName">
@@ -22,9 +23,9 @@
     <sql id="where">
         <if test="null!=e">
             #foreach($item in $table.columnList)
-                #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
+                #if($item.fieldName != 'addTime' && $item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
                     <if test="e.$item.fieldName != null and e.$item.fieldName != ''">
-                        AND $item.columnName = #{e.$item.fieldName}
+                        AND `$item.columnName` = #{e.$item.fieldName}
                     </if>
                 #end
             #end
@@ -36,7 +37,7 @@
         <include refid="allColumn"></include>
         )
         VALUES(#foreach($item in $table.columnList)
-        #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime')
+        #if($item.fieldName != 'addTime' && $item.fieldName != 'createTime' && $item.fieldName != 'updateTime')
             #{$item.fieldName}
         #else
             now()
@@ -47,15 +48,21 @@
 
     <delete id="deleteById" parameterType="int">
         DELETE FROM <include refid="tableName"></include>
-        WHERE id = #{id}
+        <where>
+            #foreach($column in $table.columnList)
+                #if($column.priKey == 3)
+                    and ${column.columnName} = #{${column.fieldName}}
+                #end
+            #end
+        </where>
     </delete>
 
     <update id="update" parameterType="${dataInfo.domainPackage}.${table.domainClassName}">
         UPDATE ${table.tableName} SET update_time = now()
         #foreach($item in $table.columnList)
-            #if($item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
-                <if test="$item.columnName != null and $item.columnName !=''">
-                    ,$item.columnName = #{$item.fieldName}
+            #if($item.fieldName != 'addTime' && $item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
+                <if test="$item.fieldName != null and $item.fieldName !=''">
+                    ,`$item.columnName` = #{$item.fieldName}
                 </if>
             #end
         #end
@@ -68,27 +75,40 @@
         </where>
     </update>
 
-    <select id="findById" parameterType="${dataInfo.domainPackage}.${table.domainClassName}"
+    <select id="findById" parameterType="int"
             resultMap="${table.domainObjName}Map">
         SELECT <include refid="allColumn"></include>
         FROM <include refid="tableName"></include>
         <where>
-            <include refid="where"></include>
+            #foreach($column in $table.columnList)
+                #if($column.priKey == 3)
+                    and ${column.columnName} = #{${column.fieldName}}
+                #end
+            #end
         </where>
     </select>
 
     <select id="list" resultMap="${table.domainObjName}Map">
-        SELECT <include refid="allColumn"></include>
-        FROM <include refid="tableName"></include>
+        SELECT
+        #foreach($column in $table.columnList)a.`$column.columnName`#if($foreach.count < $table.columnList.size()),#end#end
+        FROM ${table.tableName} a
         <where>
-            <include refid="where"></include>
+            <if test="null!=e">
+                #foreach($item in $table.columnList)
+                    #if($item.fieldName != 'addTime' && $item.fieldName != 'createTime' && $item.fieldName != 'updateTime' && $item.fieldName != 'id')
+                        <if test="e.$item.fieldName != null and e.$item.fieldName != ''">
+                            AND a.$item.columnName = #{e.$item.fieldName}
+                        </if>
+                    #end
+                #end
+            </if>
         </where>
-        order by create_time desc
-        <if test="p != null">
-            limit #{p.offset}, #{p.limit}
+        order by a.create_time desc
+        <if test="p != null and p.pageSize > 0">
+            limit #{p.offset}, #{p.pageSize}
         </if>
     </select>
-    <select id="count" resultType="int">
+    <select id="count" resultType="int" >
         SELECT COUNT(*)
         FROM <include refid="tableName"></include>
         <where>
