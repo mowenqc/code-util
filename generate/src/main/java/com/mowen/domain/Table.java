@@ -92,8 +92,13 @@ public class Table implements Serializable {
             String columnName = resultSet.getString("COLUMN_NAME").toLowerCase();
             String remarks = resultSet.getString("REMARKS");
             String columnType = metaData.getColumnTypeName(i);
+
             boolean isNullable = metaData.isNullable(i) == ResultSetMetaData.columnNoNulls ? false : true;
             TableColumn column = new TableColumn(columnName, columnType, isNullable, remarks, config);
+            int displaySize = metaData.getColumnDisplaySize(i);
+            if("String".equals(column.getFieldType())){
+                column.setComment(column.getComment() + "(length <=" + displaySize + ")");
+            }
             if (indexKey.get(columnName) != null) {
                 column.setPriKey(1);
             }

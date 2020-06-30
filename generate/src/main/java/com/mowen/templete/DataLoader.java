@@ -38,7 +38,7 @@ public class DataLoader {
         if (tableRet == null) {
             return;
         }
-        String sql = "select * from " + tableName;
+        String sql = "select * from " + tableName + " limit 1";
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSetMetaData metaData = statement.getMetaData();
 

@@ -35,6 +35,9 @@ public class TableColumn implements Serializable {
         this.columnName = columnName;
         this.columnType = columnType;
         this.isNullable = isNullable;
+        if(comment == null){
+            comment = "";
+        }
         this.comment = comment;
         this.fieldName = generateFieldName(columnName);
         this.fieldType = generateFieldType(columnType, isNullable);
