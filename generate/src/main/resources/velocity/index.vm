@@ -35,7 +35,7 @@
                                     <div class="layui-inline layui-show-xs-block">
                                         <select name="$!item.field" lay-verify="required"
                                                 class="layui-select $!item.field">
-                                            <option value=""></option>
+                                            <option value="">请选择$!item.name</option>
                                             #if($item.selectList)
                                                 #foreach($option in $item.selectList)
                                                     <option value="$option.name">$option.value</option>
@@ -87,7 +87,7 @@
                         #if($item.type == 5)
                             <select name="$!item.field" lay-verify="required"
                                     class="layui-select $!item.field">
-                                <option value=""></option>
+                                <option value="">请选择$!item.name</option>
                                 #if($item.selectList)
                                     #foreach($option in $item.selectList)
                                         <option value="$option.name">$option.value</option>

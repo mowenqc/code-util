@@ -26,9 +26,9 @@ public class Main {
         String userName = "root";
         String password = "mowen123";
         String fileDir = "G:\\develop\\sale-system";
-        String tableName = "m_data_config";
+        String tableName = "m_customer";
         String groupId = "com.exam.sales.admin";
-        String pName= "dataconfig";
+        String pName= "customer";
         String schema = "sale_system";
         String module = "sale-admin";
         Config config = Config.builder().controllerModule(module).daoModule(module).mapperModule(module).

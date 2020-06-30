@@ -6,7 +6,6 @@ import com.sales.common.base.BaseController;
 import com.sales.common.domain.Page;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.ibatis.session.RowBounds;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -15,6 +14,8 @@ import java.util.List;
 import com.sales.common.domain.CommonResponse;
 import com.sales.common.code.CommonCode;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 /**
 * @description: $!table.comment
 * @author: $!config.user
